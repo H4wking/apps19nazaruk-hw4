@@ -1,10 +1,8 @@
 package ua.edu.ucu.autocomplete;
 
-import ua.edu.ucu.tries.RWayTrie;
 import ua.edu.ucu.tries.Trie;
 import ua.edu.ucu.tries.Tuple;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 /**
