@@ -51,7 +51,7 @@ public class PrefixMatches {
         int len = 0;
         if (pref.length() >= 3) {
             len = pref.length();
-        } else if (len == 2) {
+        } else if (pref.length() == 2) {
             len = 3;
         } else {
             return null;
@@ -60,7 +60,7 @@ public class PrefixMatches {
         for (String word : trie.wordsWithPrefix(pref)) {
             words.add(word);
         }
-        Collections.sort(words, Comparator.comparingInt(String::length));
+        words.sort(Comparator.comparingInt(String::length));
         for (String word : words) {
             if (counter == 0) {
                 break;
@@ -79,17 +79,5 @@ public class PrefixMatches {
 
     public int size() {
         return trie.size();
-    }
-
-    public static void main(String[] args) {
-        PrefixMatches pm = new PrefixMatches(new RWayTrie());
-        pm.load("abc", "abce", "abcd", "abcde", "abcdef");
-
-        String pref = "abc";
-        int k = 3;
-
-        Iterable<String> result = pm.wordsWithPrefix(pref, k);
-
-        System.out.println(result);
     }
 }

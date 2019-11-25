@@ -51,13 +51,29 @@ public class RWayTrie implements Trie {
     }
 
     @Override
-    public boolean delete(String word) {
-        if (put(root, word, 0, 0).val.equals(0)) {
+    public boolean delete(String key) {
+        if (contains(key)) {
+            root = deleteRec(root, key, 0);
             size--;
             return true;
         } else {
             return false;
         }
+    }
+
+    private Node deleteRec(Node x, String key, int d)
+    {
+        if (x == null) return null;
+        if (d == key.length())
+            x.val = null;
+        else {
+            char c = key.charAt(d);
+            x.next[c] = deleteRec(x.next[c], key, d+1);
+        }
+        if (x.val != null) return x;
+        for (char c = 0; c < R; c++)
+            if (x.next[c] != null) return x;
+        return null;
     }
 
     @Override
@@ -67,10 +83,10 @@ public class RWayTrie implements Trie {
 
     @Override
     public Iterable<String> wordsWithPrefix(String s) {
-        Queue q = new Queue();
         ArrayList<String> words = new ArrayList<>();
+        Queue q = new Queue();
         Node n = get(root, s, 0);
-        wordWithPref(n, s, q);
+        wordsWithPrefixRec(n, s, q);
         int size = q.size();
         for (int i = 0; i < size; i++) {
             words.add((String) q.dequeue());
@@ -78,25 +94,15 @@ public class RWayTrie implements Trie {
         return words;
     }
 
-    private void wordWithPref(Node x, String pref, Queue q) {
+    private void wordsWithPrefixRec(Node x, String pref, Queue q) {
         if (x == null) return;
         if (x.val != null) q.enqueue(pref);
         for (char c = 0; c < R; c++)
-            wordWithPref(x.next[c], pref + c, q);
+            wordsWithPrefixRec(x.next[c], pref + c, q);
     }
 
     @Override
     public int size() {
         return size;
-    }
-
-    public static void main(String args[]) {
-        RWayTrie r = new RWayTrie();
-        r.add(new Tuple("abc", 3));
-        r.add(new Tuple("abcd", 4));
-        System.out.println(r.contains("abc"));
-        System.out.println(r.contains("abcd"));
-        r.delete("abcd");
-        System.out.println(r.contains("abcd"));
     }
 }
