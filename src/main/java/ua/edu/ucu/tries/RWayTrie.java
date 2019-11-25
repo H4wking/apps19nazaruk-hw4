@@ -90,4 +90,13 @@ public class RWayTrie implements Trie {
         return size;
     }
 
+    public static void main(String args[]) {
+        RWayTrie r = new RWayTrie();
+        r.add(new Tuple("abc", 3));
+        r.add(new Tuple("abcd", 4));
+        System.out.println(r.contains("abc"));
+        System.out.println(r.contains("abcd"));
+        r.delete("abcd");
+        System.out.println(r.contains("abcd"));
+    }
 }
